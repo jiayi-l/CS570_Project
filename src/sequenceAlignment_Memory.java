@@ -19,7 +19,7 @@ import java.util.List;
  * if either x or y==0: dp[x][y]=dp[x-1][y]/dp[x][y-1]+gap
  */
 
-public class sequenceAligment_Memory {
+public class sequenceAlignment_Memory {
 
    public static boolean isNumeric(String strNum) {
       boolean ret = true;
