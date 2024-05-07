@@ -145,7 +145,7 @@ public class basic {
             System.out.println(string1);
             String string2 = generateString(alphabet2, index2);
             System.out.println(string2);
-            long start = System.nanoTime();
+            long start = System.currentTimeMillis();
             Runtime.getRuntime().gc();
             long memoryBefore = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
             String[] output = reconstructAlignment(string1, string2, computeAlignmentMatrix(string1,string2));
@@ -153,8 +153,8 @@ public class basic {
                System.out.println(i);
             }
             long memoryAfter = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-            long end = System.nanoTime();
-            double timeTaken = (end - start) / 1000000.0;
+            long end = System.currentTimeMillis();
+            double timeTaken = end - start;
 
             try (PrintWriter writer = new PrintWriter(new File(outputFilePath))) {
                writer.println(output[0]+"\n");
