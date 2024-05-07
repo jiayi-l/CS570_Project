@@ -206,13 +206,13 @@ public class efficient {
          //System.out.println(string1);
          String string2 = stringGenerator(alphabet2, index2);
          //System.out.println(string2);
-         long start = System.nanoTime();
+         long start = System.currentTimeMillis();
          Runtime.getRuntime().gc();
          long memoryBefore = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
          String[] output = divCon(string1, string2);
          long memoryAfter = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-         long end = System.nanoTime();
-         double timeTaken = (end - start) / 1000000000.0;
+         long end = System.currentTimeMillis();
+         double timeTaken = end - start;
          //write in the output file
          try (FileWriter writer = new FileWriter(args[1])) {
             writer.write(String.valueOf(Float.parseFloat(output[2])) + "\n");

@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class Basic {
+public class basic {
    // set gap penalty value
    private static int gapPenalty = 30;
 
@@ -24,7 +24,7 @@ public class Basic {
       } else if (Character.toUpperCase(c) == 'T') {
          return 3;
       } else {
-            throw new IllegalArgumentException("Unexpected character: " + c);
+         throw new IllegalArgumentException("Unexpected character: " + c);
       }
    }
 
@@ -46,8 +46,8 @@ public class Basic {
       for (int i = 1; i <= len1; i++) {
          for (int j = 1; j <= len2; j++) {
             int matchCost = mismatchCost[charToIndex(x.charAt(i  - 1))][charToIndex(y.charAt(j - 1))];
-            int minCost = Math.min(OPT[i - 1][j - 1] + matchCost, OPT[i - 1][j] + gapPenalty);
-            OPT[i][j] = Math.min(minCost, OPT[i][j - 1] + gapPenalty);
+            //int minCost = Math.min(OPT[i - 1][j - 1] + matchCost, OPT[i - 1][j] + gapPenalty);
+            OPT[i][j] =Math.min(OPT[i - 1][j - 1] + matchCost, Math.min( OPT[i - 1][j] + gapPenalty, OPT[i][j - 1] + gapPenalty));
          }
       }
       return OPT;
@@ -115,61 +115,57 @@ public class Basic {
          return false;
       }
    }
-      public static void main(String[] args) {
-         if (args.length < 2) {
-            System.out.println("Usage: java Basic <inputFilePath> <outputFilePath>");
-            return;
-         }
-         String inputFilePath = args[0];
-         String outputFilePath = args[1];
+   public static void main(String[] args) {
+      String inputFilePath = "in15.txt";
+      String outputFilePath = "output15_dp.txt";
 
-         try (BufferedReader reader = new BufferedReader(new FileReader(inputFilePath))) {
-            String alphabet1 = reader.readLine();
-            System.out.println(alphabet1);
+      try (BufferedReader reader = new BufferedReader(new FileReader(inputFilePath))) {
+         String alphabet1 = reader.readLine();
+         System.out.println(alphabet1);
 
-            List<Integer> index1 = new ArrayList<>();
-            String newLine = reader.readLine();
-            while (isNumeric(newLine)) {
-               index1.add(Integer.parseInt(newLine));
-               newLine = reader.readLine();
-            }
-            String alphabet2 = newLine;
+         List<Integer> index1 = new ArrayList<>();
+         String newLine = reader.readLine();
+         while (isNumeric(newLine)) {
+            index1.add(Integer.parseInt(newLine));
             newLine = reader.readLine();
-            List<Integer> index2 = new ArrayList<>();
-            while (newLine!=null) {
-               index2.add(Integer.parseInt(newLine));
-               newLine = reader.readLine();
-            }
-            System.out.println("finish reading file");
-            String string1 = generateString(alphabet1, index1);
-            System.out.println(string1);
-            String string2 = generateString(alphabet2, index2);
-            System.out.println(string2);
-            long start = System.nanoTime();
-            Runtime.getRuntime().gc();
-            long memoryBefore = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-            String[] output = reconstructAlignment(string1, string2, computeAlignmentMatrix(string1,string2));
-            for(String i:output){
-               System.out.println(i);
-            }
-            long memoryAfter = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-            long end = System.nanoTime();
-            double timeTaken = (end - start) / 1000000.0;
-
-            try (PrintWriter writer = new PrintWriter(new File(outputFilePath))) {
-               writer.println(output[0]+"\n");
-               writer.println(output[1]+"\n");
-               writer.println(output[2]+"\n");
-               writer.println(String.format("%.3f", timeTaken) + "\n");
-               writer.println(String.format("%.3f", (memoryAfter - memoryBefore) / 1000.0));
-            } catch (FileNotFoundException e) {
-               System.err.println("File not found: " + e.getMessage());
-            } catch (Exception e) {
-               System.err.println("Error processing the file: " + e.getMessage());
-            }
-         } catch (IOException e) {
-            e.printStackTrace();
          }
+         String alphabet2 = newLine;
+         newLine = reader.readLine();
+         List<Integer> index2 = new ArrayList<>();
+         while (newLine!=null) {
+            index2.add(Integer.parseInt(newLine));
+            newLine = reader.readLine();
+         }
+         System.out.println("finish reading file");
+         String string1 = generateString(alphabet1, index1);
+         System.out.println(string1);
+         String string2 = generateString(alphabet2, index2);
+         System.out.println(string2);
+         long start = System.nanoTime();
+         Runtime.getRuntime().gc();
+         long memoryBefore = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+         String[] output = reconstructAlignment(string1, string2, computeAlignmentMatrix(string1,string2));
+         for(String i:output){
+            System.out.println(i);
+         }
+         long memoryAfter = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+         long end = System.nanoTime();
+         double timeTaken = (end - start) / 1000000000.0;
 
+         try (PrintWriter writer = new PrintWriter(new File(outputFilePath))) {
+            writer.println(output[0]+"\n");
+            writer.println(output[1]+"\n");
+            writer.println(output[2]+"\n");
+            writer.println(String.format("%.3f", timeTaken) + "\n");
+            writer.println(String.format("%.3f", (memoryAfter - memoryBefore) / 1000.0));
+         } catch (FileNotFoundException e) {
+            System.err.println("File not found: " + e.getMessage());
+         } catch (Exception e) {
+            System.err.println("Error processing the file: " + e.getMessage());
+         }
+      } catch (IOException e) {
+         e.printStackTrace();
       }
+
    }
+}
