@@ -102,7 +102,7 @@ public class Basic {
    private static String generateString(String base, List<Integer> steps) {
       StringBuilder sb = new StringBuilder(base);
       for (int step : steps) {
-         sb.insert(step, sb.toString());
+         sb.insert(step+1, sb.toString());
       }
       return sb.toString();
    }
@@ -144,7 +144,7 @@ public class Basic {
             String string1 = generateString(alphabet1, index1);
             System.out.println(string1);
             String string2 = generateString(alphabet2, index2);
-            System.out.println(string1);
+            System.out.println(string2);
             long start = System.nanoTime();
             Runtime.getRuntime().gc();
             long memoryBefore = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
