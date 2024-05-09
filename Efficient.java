@@ -19,7 +19,7 @@ import java.util.List;
  * if either x or y==0: dp[x][y]=dp[x-1][y]/dp[x][y-1]+gap
  */
 
-public class efficient {
+public class Efficient {
 
    //check if the string is numerical 
    public static boolean isNumeric(String strNum) {
@@ -33,6 +33,11 @@ public class efficient {
       }
       return ret;
    }
+   private static double getMemoryInKB() {
+      double total = Runtime.getRuntime().totalMemory(); 
+      return (total-Runtime.getRuntime().freeMemory())/1000;
+      }
+
    //map for mismatch cost 
    private static final HashMap<String, Integer> alpha = new HashMap<>();
    static {
@@ -206,12 +211,12 @@ public class efficient {
          //System.out.println(string1);
          String string2 = stringGenerator(alphabet2, index2);
          //System.out.println(string2);
-         long start = System.currentTimeMillis();
+         long start = System.nanoTime()/1000000;
          Runtime.getRuntime().gc();
-         long memoryBefore = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+         double memoryBefore = getMemoryInKB();
          String[] output = divCon(string1, string2);
-         long memoryAfter = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-         long end = System.currentTimeMillis();
+         double memoryAfter = getMemoryInKB();
+         long end = System.nanoTime()/1000000;
          double timeTaken = end - start;
          //write in the output file
          try (FileWriter writer = new FileWriter(args[1])) {
@@ -219,12 +224,13 @@ public class efficient {
             writer.write(output[0]+"\n");
             writer.write(output[1]+"\n");
             writer.write(String.format("%.3f", timeTaken) + "\n");
-            writer.write(String.format("%.3f", (memoryAfter - memoryBefore) / 1000.0));
+            writer.write(String.format("%.3f", memoryAfter - memoryBefore)+"\n");
          } catch (IOException e) {
             e.printStackTrace();
          }
       } catch (IOException e) {
          e.printStackTrace();
       }
+      System.gc();
    }
 }
