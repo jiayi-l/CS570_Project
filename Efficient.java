@@ -33,6 +33,7 @@ public class Efficient {
       }
       return ret;
    }
+   
    private static double getMemoryInKB() {
       double total = Runtime.getRuntime().totalMemory(); 
       return (total-Runtime.getRuntime().freeMemory())/1000;
