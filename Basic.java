@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class basic {
+public class Basic {
    // set gap penalty value
    private static int gapPenalty = 30;
 
